@@ -1,0 +1,84 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>AUSENS - Spotify Downloader Bot</title>
+  <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+  <link rel="stylesheet" href="{% static 'webapp/css/index.css' %}?v={{files_version}}">
+</head>
+<body>
+  <!-- Page loader: visible while the page and assets load -->
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite">
+    <div class="page-loader__box">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="page-loader__text">Loading…</div>
+    </div>
+  </div>
+  <header class="header">
+    <nav class="nav">
+      <h1 class="nav__title">AUSENS</h1>
+    </nav>
+  </header>
+
+  <main class="main">
+    <div class="main__content">
+  <img class="main__coverart" src="{{first_track.coverart}}" data-default="{{first_track.coverart}}" alt="Cover Art" loading="lazy">
+      <div class="main__info">
+        <div class="main__track-row">
+          <div class="main__track-meta">
+            <h2 class="main__track-title">{{first_track.name}}</h2>
+            <h3 class="main__track-artist">{{first_track.performers}}</h3>
+          </div>
+          <div class="main__track-actions">
+            <!-- Replace href="#" with the actual download link when available -->
+            <a class="main__download-btn" href="https://t.me/AusensBot?start=sp_{{first_track.id}}" role="button">Download</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Player moved outside of .main__info as requested -->
+      <div class="main__player" aria-label="Audio player">
+  <input class="main__progress" type="range" min="0" max="100" value="0" step="any" aria-label="Progress" />
+        <div class="main__controls">
+          <button class="player-btn prev" type="button" aria-label="Previous track">
+            <!-- SVG icon: previous (double-left) -->
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <polygon points="16,6 8,12 16,18" />
+              <polygon points="10,6 2,12 10,18" />
+            </svg>
+          </button>
+          <button class="player-btn play-pause" type="button" aria-label="Play/Pause">
+            <!-- SVG icon: play (default) -->
+            <svg class="icon icon--play" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <polygon points="6,4 20,12 6,20" />
+            </svg>
+            <!-- SVG icon: pause (shown when .is-playing is added) -->
+            <svg class="icon icon--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="6" y="5" width="4" height="14" />
+              <rect x="14" y="5" width="4" height="14" />
+            </svg>
+          </button>
+          <button class="player-btn next" type="button" aria-label="Next track">
+            <!-- SVG icon: next (double-right) -->
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <polygon points="8,6 16,12 8,18" />
+              <polygon points="2,6 10,12 2,18" />
+            </svg>
+          </button>
+        </div>
+        
+      </div>
+      <!-- Hidden audio element for lazy-loading audio sources. Set src via JS when you want to load/play. -->
+      <audio id="audio-player" src="{{first_track.preview_url}}" preload="none" data-lazy="true" data-first-src="{{first_track.preview_url}}" aria-hidden="true"></audio>
+    </div>
+  </main>
+
+  <script>
+    const tracks = {{ tracks_json|safe }};
+  </script>
+  <script src="{% static 'webapp/js/index.js' %}?v={{files_version}}"></script>
+</body>
+</html>

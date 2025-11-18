@@ -1,0 +1,369 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+body {
+    background-color: #242424;
+    transition: background 420ms ease;
+}
+
+/* Page loader overlay */
+.page-loader {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6));
+    z-index: 9999;
+    transition: opacity 320ms ease, visibility 320ms ease;
+    opacity: 1;
+    visibility: visible;
+}
+.page-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.page-loader__box { text-align: center; color: #fff; }
+.spinner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,0.12);
+    border-top-color: #1DB954;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.page-loader__text { font-size: 14px; color: #fff; opacity: 0.95; font-weight: 600; }
+
+/* Download toast notification */
+.download-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%) translateY(8px);
+    background: rgba(0,0,0,0.82);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+    z-index: 10001;
+    opacity: 0;
+    transition: transform 220ms ease, opacity 220ms ease;
+}
+.download-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+.download-toast__inner { font-weight: 600; font-size: 14px; }
+
+.header {
+    width: 100%;
+}
+
+.main {
+    width: 100%;
+}
+
+.nav {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav__title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1DB954;
+    font-size: 26px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.02);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+@media (max-width: 480px) {
+    .nav__title {
+        font-size: 20px;
+        letter-spacing: 0.6px;
+        padding: 4px 10px;
+    }
+}
+
+.main__content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.main__coverart {
+    max-width: 640px;
+    width: 100%;
+    border-radius: 12px;
+}
+
+.main__info {
+    max-width: 640px;
+    width: 100%;
+}
+
+.main__track-title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #f3f3f3;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: start;
+    /* allow wrapping across multiple lines on small screens */
+    display: block;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.main__track-artist {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #7f7f7f;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: start;
+    /* allow wrapping across multiple lines on small screens */
+    display: block;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Marquee (scrolling) for overflowing titles */
+.marquee {
+    /* ensure the container can get a width even when implemented as a span */
+    display: block;
+    width: 100%;
+    overflow: hidden;
+}
+
+.marquee__inner {
+    display: inline-block;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.marquee__item {
+    display: inline-block;
+}
+
+/* Animated state applied when JS determines scrolling is needed */
+.marquee__inner.marquee--animate {
+    animation-name: marquee;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--marquee-duration, 8s);
+}
+
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-1 * var(--marquee-distance, 100%))); }
+}
+
+/* Optional: pause on hover to let users read */
+.marquee:hover .marquee__inner.marquee--animate {
+    animation-play-state: paused;
+}
+
+/* Layout for track meta + actions (download) */
+.main__track-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.main__track-meta {
+    /* allow meta area to take remaining space */
+    flex: 1 1 auto;
+    min-width: 0; /* allow children to truncate properly */
+    overflow: hidden;
+}
+
+.main__track-actions {
+    flex: 0 0 auto;
+    margin-left: 12px;
+}
+
+.main__download-btn {
+    display: inline-block;
+    background-color: #1DB954;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main__download-btn:active,
+.main__download-btn:focus,
+.main__download-btn:hover {
+    background-color: #17a345;
+}
+
+/* Responsive: stack vertically on narrow screens */
+@media (max-width: 480px) {
+    .main__track-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .main__track-actions {
+        margin-left: 0;
+        margin-top: 8px;
+        width: 100%;
+    }
+    .main__download-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Slightly reduce title/artist sizes on small screens to avoid overflow */
+    .main__track-title {
+        font-size: 20px;
+    }
+    .main__track-artist {
+        font-size: 15px;
+    }
+}
+
+/* Player styles */
+.main__player {
+    margin-top: 12px;
+    width: 100%;
+    max-width: 640px; /* match .main__info max width */
+    box-sizing: border-box;
+}
+
+.main__player { position: relative; }
+
+.main__progress {
+    -webkit-appearance: none;
+    width: 100%;
+    appearance: none;
+    height: 6px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 6px;
+    outline: none;
+    margin-bottom: 8px;
+}
+.main__progress::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #1DB954;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(29,185,84,0.15);
+    cursor: pointer;
+}
+
+.main__controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.player-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.icon { fill: #fff; width: 45px; height: 45px; display: block; }
+
+/* Make the central play icon larger for emphasis */
+.player-btn.play-pause .icon { width: 40px; height: 40px; }
+
+/* Slightly increase button padding to accommodate larger icons */
+.player-btn { padding: 8px 10px; }
+.player-btn.play-pause { padding: 6px 8px; }
+
+/* Style play/pause as a green circular button (Yandex Music-like but green) */
+.player-btn.play-pause {
+    background-color: #1DB954; /* green */
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(29,185,84,0.25);
+    transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+.player-btn.play-pause:hover {
+    /* no visual hover change for play/pause to keep style consistent */
+    transform: none;
+    background-color: #1DB954;
+}
+
+/* Prev/Next should not get hover background or transform */
+.player-btn.prev:hover, .player-btn.prev:focus,
+.player-btn.next:hover, .player-btn.next:focus {
+    background: transparent;
+    transform: none;
+}
+
+.player-btn.play-pause:active {
+    transform: translateY(0);
+}
+
+/* show pause icon only when .is-playing is present */
+.player-btn.play-pause .icon--pause { display: none; }
+.player-btn.play-pause.is-playing .icon--pause { display: block; }
+.player-btn.play-pause.is-playing .icon--play { display: none; }
+
+/* ensure SVGs scale nicely inside the circular button */
+.player-btn.play-pause .icon { width: 28px; height: 28px; }
+.player-btn.play-pause .icon--play { width: 28px; height: 28px; }
+.player-btn.play-pause .icon--pause { width: 22px; height: 22px; }
+
+/* loading overlay & spinner removed per design — audio will stream while playing */
+
+.player-btn:focus,
+.player-btn:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+/* Disabled state for player buttons */
+.player-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: transparent;
+}
+
+/* Larger play button */
+.player-btn.play-pause {
+    font-size: 20px;
+    padding: 8px 10px;
+}
+
+@media (max-width: 480px) {
+    .main__player {
+        width: 100%;
+    }
+}

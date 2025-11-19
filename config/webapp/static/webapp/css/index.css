@@ -63,7 +63,7 @@ body {
 
 .header {
     width: 100%;
-    padding: 50px 0 0 0;
+    padding: 20px 0;
 }
 
 .main {
@@ -106,7 +106,7 @@ body {
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 60px 30px 0 30px;
+    padding: 40px 30px 0 30px;
     flex-direction: column;
     height: max-content;
 }

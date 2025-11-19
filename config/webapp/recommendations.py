@@ -25,7 +25,7 @@ def generate_chosic_auth_token():
         traceback.print_exc()
         return None
 
-def get_songs_recommendations(songs_ids:list, limit:int=25):
+def get_songs_recommendations(songs_ids:list, limit:int=50):
     try:
         cookie = generate_chosic_auth_token()
         if not cookie: return None

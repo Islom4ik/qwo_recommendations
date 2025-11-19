@@ -106,7 +106,7 @@ body {
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 40px 30px 0 30px;
+    padding: 20px 30px 0 30px;
     flex-direction: column;
     height: max-content;
 }

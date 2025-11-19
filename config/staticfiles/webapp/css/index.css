@@ -9,6 +9,7 @@
 body {
     background-color: #242424;
     transition: background 420ms ease;
+    height: 100%;
 }
 
 /* Page loader overlay */
@@ -67,6 +68,7 @@ body {
 
 .main {
     width: 100%;
+    height: 100vh;
 }
 
 .nav {

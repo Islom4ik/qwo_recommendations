@@ -5,7 +5,7 @@ from django.shortcuts import render, HttpResponse
 from webapp.recommendations import get_songs_recommendations
 
 # Create your views here.
-files_verson = '1.4'
+files_verson = '1.5'
 def VIEW_main(request):
     print(request.GET)
     if 'songs_ids' not in request.GET:

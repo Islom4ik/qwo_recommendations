@@ -24,16 +24,11 @@ try {
     document.addEventListener('DOMContentLoaded', () => setTimeout(hideLoader, 300));
 })();
 
-
-var current_track = 0;
-
-console.log(tracks);
-
-try { 
-    app.requestFullscreen().catch(() => {
-        console.log("Не получилось включить fullscreen (клиент не поддерживает)");
-    });
-} catch {}
+// try { 
+//     app.requestFullscreen().catch(() => {
+//         console.log("Не получилось включить fullscreen (клиент не поддерживает)");
+//     });
+// } catch {}
 
 
 
